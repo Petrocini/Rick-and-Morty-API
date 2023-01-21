@@ -1,4 +1,4 @@
-package com.petrocini.rickandmorty.di
+package com.petrocini.rickandmorty.data.di
 
 import com.petrocini.rickandmorty.data.network.service.ApiService
 import com.petrocini.rickandmorty.data.repository.CharacterRepositoryImpl
@@ -7,8 +7,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -18,8 +20,12 @@ object NetworkModule {
     @Singleton
     @Provides
     fun providesApiService(): ApiService {
+        val okHttpClient = OkHttpClient.Builder()
+            .readTimeout(60, TimeUnit.SECONDS)
+            .build()
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
+            .client(okHttpClient)
             .baseUrl(ApiService.BASE_API_URL)
             .build()
             .create(ApiService::class.java)
