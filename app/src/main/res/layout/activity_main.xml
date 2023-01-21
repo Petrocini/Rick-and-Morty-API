@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="4dp"
     android:background="#323131"
-    tools:context=".MainActivity"
+    tools:context=".ui.characters.MainActivity"
     tools:ignore="HardcodedText">
 
     <ProgressBar
